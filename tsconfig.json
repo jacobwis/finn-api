@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "lib": ["es6", "esnext", "es2015"]
   },
   "exclude": ["node_modules"]
 }
