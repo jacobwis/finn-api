@@ -1,16 +1,11 @@
 import * as express from "express";
+import * as bodyParser from "body-parser";
 import { Request, Response } from "express";
-import * as gb from "./lib/GoogleBooks";
-
+import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
+import { router } from "./routes";
 const app = express();
 
-app.get("/", async (req: Request, res: Response) => {
-  // res.send({
-  //   message: "Hello from Typescript",
-  //   env: process.env.NODE_ENV
-  // });
-  const book = await gb.findByID("RJxWIQOvoZUC");
-  res.send(book.data);
-});
+app.use(bodyParser.json());
+app.use(router);
 
 export = app;
