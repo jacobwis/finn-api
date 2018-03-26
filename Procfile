@@ -1,1 +1,1 @@
-web: node ./bin/server.js
+web: yarn run tsc && node ./bin/server.js
