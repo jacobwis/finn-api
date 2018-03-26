@@ -1,4 +1,7 @@
 type Book {
+  id: String
   title: String
-  author: String
+  authors: [String]
+  publisher: String
+  description: String
 }

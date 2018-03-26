@@ -1,9 +1,22 @@
+import * as cache from "../lib/cache";
 import { Volume, findByID } from "../lib/GoogleBooks";
 
 export class Book {
   public static async findByID(id: string) {
+    const CACHE_KEY = `BOOK:${id}`;
+
+    const fromCache = await cache.get<Book>(CACHE_KEY);
+
+    if (fromCache) {
+      return fromCache;
+    }
+
     const volume = await findByID(id);
-    return Book.fromVolume(volume);
+    const book = Book.fromVolume(volume);
+
+    cache.set(CACHE_KEY, book);
+
+    return book;
   }
 
   public static fromVolume(volume: Volume) {
