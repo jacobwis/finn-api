@@ -1,7 +1,17 @@
+type Covers {
+  thumbnail: String
+  small: String
+  medium: String
+  large: String
+  smallThumbnail: String
+  extraLarge: String
+}
+
 type Book {
   id: String
   title: String
   authors: [String]
   publisher: String
   description: String
+  covers: Covers
 }

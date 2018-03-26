@@ -1,22 +1,10 @@
-import * as cache from "../lib/cache";
 import { Volume, findByID } from "../lib/GoogleBooks";
 
 export class Book {
   public static async findByID(id: string) {
-    const CACHE_KEY = `BOOK:${id}`;
-
-    const fromCache = await cache.get<Book>(CACHE_KEY);
-
-    if (fromCache) {
-      return fromCache;
-    }
-
     const volume = await findByID(id);
-    const book = Book.fromVolume(volume);
 
-    cache.set(CACHE_KEY, book);
-
-    return book;
+    return Book.fromVolume(volume);
   }
 
   public static fromVolume(volume: Volume) {
@@ -25,7 +13,8 @@ export class Book {
       title: volume.volumeInfo.title,
       authors: volume.volumeInfo.authors,
       publisher: volume.volumeInfo.publisher,
-      description: volume.volumeInfo.description
+      description: volume.volumeInfo.description,
+      covers: volume.volumeInfo.imageLinks
     });
   }
 
@@ -34,6 +23,9 @@ export class Book {
   public authors: string[];
   public publisher: string;
   public description: string;
+  public covers: {
+    [key: string]: string;
+  };
 
   public constructor(params: Partial<Book>) {
     this.id = params.id;
@@ -41,5 +33,6 @@ export class Book {
     this.authors = params.authors;
     this.publisher = params.publisher;
     this.description = params.description;
+    this.covers = params.covers;
   }
 }
