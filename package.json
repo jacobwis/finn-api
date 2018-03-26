@@ -1,0 +1,19 @@
+{
+  "name": "finn-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/wisniewskij26/finn-api.git",
+  "author": "Jacob Wisniewski <wisniewskij26@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon ./bin/server.js"
+  },
+  "engines": {
+    "node": "9.3.0"
+  },
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "nodemon": "^1.17.2"
+  }
+}
