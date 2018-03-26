@@ -11,6 +11,6 @@ router.get("/", (req: Request, res: Response) => {
   });
 });
 
-router.post("/graphql", graphqlExpress({ schema }));
+router.use("/graphql", graphqlExpress({ schema }));
 
 router.get("/graphiql", graphiqlExpress({ endpointURL: "/graphql" }));

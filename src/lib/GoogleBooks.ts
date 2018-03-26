@@ -20,5 +20,6 @@ export const findByID = async (id: string) => {
   const res = await axios.get<Volume>(
     `https://www.googleapis.com/books/v1/volumes/${id}`
   );
+  console.log(res);
   return res.data;
 };
