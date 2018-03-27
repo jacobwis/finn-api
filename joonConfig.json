@@ -1,0 +1,4 @@
+{
+  "development": "postgresql://jacobwisniewski@localhost:5432/finn_development",
+  "production": { "ENV": "DATABASE_URL" }
+}

@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
+    "migrate": "joon",
     "start": "concurrently \"tsc --watch\" \"nodemon ./bin/server.js\"",
     "test": "jest"
   },
@@ -18,14 +19,7 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
   },
   "dependencies": {
     "@types/cors": "^2.8.3",
@@ -47,6 +41,7 @@
     "graphql": "^0.13.2",
     "graphql-tools": "^2.23.1",
     "jest": "^22.4.3",
+    "joon": "^1.1.7",
     "lodash": "^4.17.5",
     "nodemon": "^1.17.2",
     "redis": "^2.8.0",
