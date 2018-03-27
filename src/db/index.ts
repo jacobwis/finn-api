@@ -11,7 +11,7 @@ export const init = () => {
     }
 
     if (ENV === "test") {
-      connectionString = process.env.DB_TEST;
+      connectionString = process.env.TEST_DB;
     }
 
     if (ENV === "development") {
@@ -33,4 +33,9 @@ export const end = async () => {
 
 export const query = async (queryText: string, values: any[] = []) => {
   return await pool.query(queryText, values);
+};
+
+export const one = async (queryText: string, values: any[] = []) => {
+  const res = await query(queryText, values);
+  return res.rows[0];
 };

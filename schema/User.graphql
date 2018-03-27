@@ -1,0 +1,13 @@
+input UserInput {
+  name: String
+  username: String
+  emailAddress: String
+  password: String
+}
+
+type User {
+  id: Int
+  name: String
+  username: String
+  emailAddress: String
+}
