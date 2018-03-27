@@ -5,6 +5,9 @@ import { Request, Response } from "express";
 import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
 import { router } from "./routes";
 import * as cache from "./lib/cache";
+import * as db from "./db";
+
+db.init();
 
 cache.init();
 
