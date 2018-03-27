@@ -7,7 +7,7 @@ export const init = () => {
     const ENV = process.env.NODE_ENV || "development";
     let connectionString;
     if (ENV === "production") {
-      connectionString = process.env.DB_URL;
+      connectionString = process.env.DATABASE_URL;
     }
 
     if (ENV === "test") {
