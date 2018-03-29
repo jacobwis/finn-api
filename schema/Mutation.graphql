@@ -1,3 +1,3 @@
 type Mutation {
-  createUser(user: UserInput): User
+  createUser(user: UserInput): String
 }

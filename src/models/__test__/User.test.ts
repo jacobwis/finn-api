@@ -1,4 +1,5 @@
 import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
 import { setupTestDB } from "../../lib/testSetup";
 import * as db from "../../db";
 import { User } from "../User";
@@ -75,5 +76,13 @@ describe("new User()", () => {
       emailAddress: "jdoe26@example.com",
       password: "Pass123"
     });
+  });
+});
+
+describe("user.token()", () => {
+  it("should return a JWT token containing the users ID", async () => {
+    const user = new User({ id: 5 });
+    const token = user.token();
+    expect(jwt.verify(token, process.env.SECRET)).toHaveProperty("userID", 5);
   });
 });

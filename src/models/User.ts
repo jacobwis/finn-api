@@ -1,3 +1,4 @@
+import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
 import * as db from "../db";
 
@@ -24,5 +25,9 @@ export class User {
     this.username = params.username;
     this.emailAddress = params.emailAddress;
     this.password = params.password;
+  }
+
+  public token() {
+    return jwt.sign({ userID: this.id }, process.env.SECRET);
   }
 }

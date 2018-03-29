@@ -5,5 +5,6 @@ interface CreateUserArgs {
 }
 
 export const createUser = async (obj: any, args: CreateUserArgs) => {
-  return await User.create(args.user);
+  const user = await User.create(args.user);
+  return user.token();
 };
