@@ -1,4 +1,18 @@
 import { User } from "../../models";
+import { Context } from "../../types";
+
+interface AddBookArgs {
+  bookID: string;
+}
+
+export const addBookToList = async (
+  obj: any,
+  args: AddBookArgs,
+  context: Context
+) => {
+  await context.currentUser.addBookToList(args.bookID);
+  return true;
+};
 
 interface CreateUserArgs {
   user: Partial<User>;
@@ -22,4 +36,12 @@ export const authenticateUser = async (
   if (user && (await user.authenticate(args.password))) {
     return user.token();
   }
+};
+
+export const removeBookFromList = async (
+  obj: any,
+  args: { bookID: string },
+  context: Context
+) => {
+  return await context.currentUser.removeBookFromList(args.bookID);
 };

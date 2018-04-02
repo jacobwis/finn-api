@@ -41,4 +41,8 @@ export class Book {
     this.description = params.description;
     this.covers = params.covers;
   }
+
+  public async isOnList() {
+    return false;
+  }
 }

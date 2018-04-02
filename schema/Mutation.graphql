@@ -1,4 +1,6 @@
 type Mutation {
+  addBookToList(bookID: String): Boolean
   authenticateUser(emailAddress: String, password: String): String
   createUser(user: UserInput): String
+  removeBookFromList(bookID: String): Boolean
 }

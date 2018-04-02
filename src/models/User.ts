@@ -60,4 +60,33 @@ export class User {
   public token() {
     return jwt.sign({ userID: this.id }, process.env.SECRET);
   }
+
+  public async addBookToList(bookID: string) {
+    const res = await db.query(
+      `INSERT INTO "reading_list_items"("bookID", "userID", "hasRead") VALUES($1, $2, $3)`,
+      [bookID, this.id, false]
+    );
+    return true;
+  }
+
+  public async removeBookFromList(bookID: string) {
+    await db.query(
+      `DELETE FROM "reading_list_items" WHERE "bookID" = $1 AND "userID" = $2`,
+      [bookID, this.id]
+    );
+    return true;
+  }
+
+  public async hasBookOnList(bookID: string) {
+    const res = await db.query(
+      `SELECT * FROM "reading_list_items" WHERE "bookID" = $1 AND "userID" = $2`,
+      [bookID, this.id]
+    );
+
+    if (res.rowCount > 0) {
+      return true;
+    }
+
+    return false;
+  }
 }
