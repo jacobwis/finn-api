@@ -1,5 +1,10 @@
 import { Book } from "../../models";
 import * as gb from "../../lib/GoogleBooks";
+import { Context } from "../../types";
+
+export const currentUser = async (obj: any, args: any, context: Context) => {
+  return context.currentUser;
+};
 
 interface FindBookByIDArgs {
   id: string;

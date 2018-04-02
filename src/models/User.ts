@@ -26,6 +26,19 @@ export class User {
     return new User(res.rows[0]);
   }
 
+  public static async findByID(id: number) {
+    const res = await db.query('SELECT * FROM users WHERE "id" = $1 LIMIT 1', [
+      id
+    ]);
+    return new User(res.rows[0]);
+  }
+
+  public static async fromToken(token: string) {
+    const decoded = jwt.verify(token, process.env.SECRET) as any;
+    const user = await User.findByID(decoded.userID);
+    return user;
+  }
+
   public id: number;
   public name: string;
   public username: string;

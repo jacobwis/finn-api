@@ -1,4 +1,5 @@
 type Query {
+  currentUser: User
   findBookByID(id: String): Book
   search(query: String, options: SearchOptions): [Book]
 }

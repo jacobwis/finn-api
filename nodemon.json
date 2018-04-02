@@ -1,6 +1,5 @@
 {
-  "watch": ["src", "bin"],
-  "ext": "ts js",
+  "ext": "ts js graphql",
   "ignore": ["src/**/*.test.ts"],
   "exec": "ts-node ./bin/server.js"
 }
