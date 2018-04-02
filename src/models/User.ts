@@ -13,6 +13,19 @@ export class User {
     return new User(res);
   }
 
+  public static async findByEmailAddress(emailAddress: string) {
+    const res = await db.query(
+      'SELECT * FROM users WHERE "emailAddress" = $1 LIMIT 1',
+      [emailAddress]
+    );
+
+    if (res.rowCount === 0) {
+      return null;
+    }
+
+    return new User(res.rows[0]);
+  }
+
   public id: number;
   public name: string;
   public username: string;
@@ -25,6 +38,10 @@ export class User {
     this.username = params.username;
     this.emailAddress = params.emailAddress;
     this.password = params.password;
+  }
+
+  public async authenticate(plainPassword: string) {
+    return await bcrypt.compare(plainPassword, this.password);
   }
 
   public token() {

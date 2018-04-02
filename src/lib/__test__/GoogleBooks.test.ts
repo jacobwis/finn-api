@@ -1,5 +1,11 @@
 import * as gb from "../GoogleBooks";
 
+describe(".search()", () => {
+  it("dmakl", async () => {
+    const res = await gb.search("the hunger games");
+  });
+});
+
 describe(".findById()", () => {
   it("should return the correct result", async () => {
     const res = await gb.findByID("RJxWIQOvoZUC");

@@ -1,4 +1,4 @@
-import { Volume, findByID } from "../lib/GoogleBooks";
+import { Volume, findByID, SearchOptions, search } from "../lib/GoogleBooks";
 
 export class Book {
   public static async findByID(id: string) {
@@ -16,6 +16,12 @@ export class Book {
       description: volume.volumeInfo.description,
       covers: volume.volumeInfo.imageLinks
     });
+  }
+
+  public static async search(keyword: string, options: SearchOptions) {
+    const results = await search(keyword, options);
+
+    return results.items.map(item => Book.fromVolume(item));
   }
 
   public id: string;

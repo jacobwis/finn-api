@@ -57,6 +57,30 @@ describe("User.create()", () => {
   });
 });
 
+describe("User.findByEmailAddress()", () => {
+  beforeEach(async () => {
+    await setupTestDB();
+  });
+
+  it("should return a user matching the email address provided", async () => {
+    await expect(
+      User.findByEmailAddress("pberceros0@va.gov")
+    ).resolves.toHaveProperty("emailAddress", "pberceros0@va.gov");
+  });
+
+  it("should return null if no user with that email address if found", async () => {
+    await expect(
+      User.findByEmailAddress("nonexistantemail@gmail.com")
+    ).resolves.toBeNull();
+  });
+
+  it("should return an instance of User", async () => {
+    await expect(
+      User.findByEmailAddress("pberceros0@va.gov")
+    ).resolves.toBeInstanceOf(User);
+  });
+});
+
 describe("new User()", () => {
   it("should properly assign properties", () => {
     const data = {
@@ -76,6 +100,24 @@ describe("new User()", () => {
       emailAddress: "jdoe26@example.com",
       password: "Pass123"
     });
+  });
+});
+
+describe("user.authenticate()", () => {
+  beforeEach(async () => {
+    await setupTestDB();
+  });
+
+  it("should return true if the password is correct", async () => {
+    const user = await User.findByEmailAddress("pberceros0@va.gov");
+
+    await expect(user.authenticate("dbnGtkg")).resolves.toEqual(true);
+  });
+
+  it("should return false if the password is incorrect", async () => {
+    const user = await User.findByEmailAddress("pberceros0@va.gov");
+
+    await expect(user.authenticate("wrong")).resolves.toEqual(false);
   });
 });
 

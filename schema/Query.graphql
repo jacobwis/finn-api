@@ -1,3 +1,14 @@
 type Query {
   findBookByID(id: String): Book
+  search(query: String, options: SearchOptions): [Book]
+}
+
+input SearchOptions {
+  startIndex: Int
+  maxResults: Int
+}
+
+type SearchResult {
+  items: [Book]
+  nextPage: Int
 }

@@ -1,3 +1,4 @@
 type Mutation {
+  authenticateUser(emailAddress: String, password: String): String
   createUser(user: UserInput): String
 }
