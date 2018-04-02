@@ -1,6 +1,7 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
+import * as morgan from "morgan";
 import { Request, Response } from "express";
 import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
 import { router } from "./routes";
@@ -14,6 +15,7 @@ cache.init();
 const app = express();
 
 app.use(bodyParser.json());
+app.use(morgan("tiny"));
 app.use(cors());
 app.use(router);
 

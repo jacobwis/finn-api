@@ -6,7 +6,7 @@ export const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
   res.send({
-    message: "Hello from Typescript",
+    message: "Hello",
     env: process.env.NODE_ENV
   });
 });
