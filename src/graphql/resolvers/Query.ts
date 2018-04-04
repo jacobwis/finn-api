@@ -22,6 +22,12 @@ interface SearchArgs {
   };
 }
 
+export const readingList = async (obj: any, args: any, context: Context) => {
+  if (context.currentUser) {
+    return await context.currentUser.readingList();
+  }
+};
+
 export const search = async (obj: any, args: SearchArgs) => {
   const defaultOptions = {
     maxResults: 40,

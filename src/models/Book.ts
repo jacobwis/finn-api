@@ -1,4 +1,14 @@
 import { Volume, findByID, SearchOptions, search } from "../lib/GoogleBooks";
+import { URLSearchParams, URL } from "url";
+
+function formatCoverURL(original: string) {
+  const url = new URL(original);
+  url.searchParams.delete("edge");
+  return url.toString();
+  // const params = new URL(url);
+  // params.searchParams.delete("edge");
+  // console.log(params.toString());
+}
 
 export class Book {
   public static async findByID(id: string) {
@@ -39,7 +49,12 @@ export class Book {
     this.authors = params.authors;
     this.publisher = params.publisher;
     this.description = params.description;
-    this.covers = params.covers;
+    this.covers = Object.keys(params.covers).reduce((obj, key) => {
+      return {
+        ...obj,
+        [key]: formatCoverURL(params.covers[key])
+      };
+    }, {});
   }
 
   public async isOnList() {

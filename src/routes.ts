@@ -18,7 +18,9 @@ router.use(
   authMiddleware,
   graphqlExpress((req: RequestWithUser) => ({
     schema,
-    context: { currentUser: req.currentUser }
+    context: {
+      currentUser: req.currentUser
+    }
   }))
 );
 

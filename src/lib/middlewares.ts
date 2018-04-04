@@ -8,7 +8,7 @@ export const authMiddleware = async (
   next: NextFunction
 ) => {
   const token = req.headers["x-access-token"] as string;
-  if (token) {
+  if (token && token !== "null") {
     const user = await User.fromToken(token);
     req.currentUser = user;
   }

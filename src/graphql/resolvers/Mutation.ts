@@ -36,6 +36,10 @@ export const authenticateUser = async (
   if (user && (await user.authenticate(args.password))) {
     return user.token();
   }
+
+  return new Error(
+    "No User could be found using the email and password provided."
+  );
 };
 
 export const removeBookFromList = async (

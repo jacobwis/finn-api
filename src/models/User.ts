@@ -1,6 +1,7 @@
 import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
 import * as db from "../db";
+import { Book } from "./Book";
 
 export class User {
   public static async create(user: Partial<User>) {
@@ -30,6 +31,11 @@ export class User {
     const res = await db.query('SELECT * FROM users WHERE "id" = $1 LIMIT 1', [
       id
     ]);
+
+    if (res.rowCount === 0) {
+      return null;
+    }
+
     return new User(res.rows[0]);
   }
 
@@ -75,6 +81,16 @@ export class User {
       [bookID, this.id]
     );
     return true;
+  }
+
+  public async readingList() {
+    const listItems = await db.query(
+      `SELECT * FROM "reading_list_items" WHERE "userID" = $1`,
+      [this.id]
+    );
+    return await Promise.all(
+      listItems.rows.map(item => Book.findByID(item.bookID))
+    );
   }
 
   public async hasBookOnList(bookID: string) {
