@@ -1,0 +1,10 @@
+type User {
+  id: Int
+  name: String
+  username: String
+  photoURL: String
+}
+
+extend type Query {
+  currentUser: User
+}

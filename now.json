@@ -1,0 +1,9 @@
+{
+  "name": "finn-api",
+  "alias": ["api.finnreading.com"],
+  "env": {
+    "SECRET": "@finn-api-secret",
+    "DB_URL": "@finn-db-url",
+    "REDIS_URL": "@finn-redis-url"
+  }
+}
