@@ -3,6 +3,7 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import { merge } from "lodash";
 import userQueries from "./queries/user";
+import bookQueries from "./queries/book";
 
 let schema = "";
 const schemaDir = path.resolve(__dirname, "types");
@@ -13,7 +14,7 @@ for (const file of files) {
   schema += data;
 }
 
-const resolvers = merge({}, userQueries);
+const resolvers = merge({}, userQueries, bookQueries);
 
 export default makeExecutableSchema({
   typeDefs: schema,

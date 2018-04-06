@@ -4,6 +4,9 @@
   "env": {
     "SECRET": "@finn-api-secret",
     "DB_URL": "@finn-db-url",
-    "REDIS_URL": "@finn-redis-url"
+    "REDIS_URL": "@finn-redis-url",
+    "TWITTER_CONSUMER_KEY": "@finn-twitter-key",
+    "TWITTER_CONSUMER_SECRET": "@finn-twitter-secret",
+    "NYT_KEY": "@finn-nyt-key"
   }
 }

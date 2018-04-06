@@ -1,0 +1,23 @@
+type Book {
+  id: String
+  title: String
+  subtitle: String
+  authors: [String]
+  publisher: String
+  categories: [String]
+  covers: CoverLinks
+}
+
+type CoverLinks {
+  thumbnail: String
+  small: String
+  medium: String
+  large: String
+  smallThumbnail: String
+  extraLarge: String
+}
+
+extend type Query {
+  getBookByID(id: String): Book
+  bestSellers: [Book]
+}
