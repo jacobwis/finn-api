@@ -1,3 +1,4 @@
+import { URL } from "url";
 import axios from "axios";
 import * as cache from "../lib/cache";
 
@@ -77,18 +78,36 @@ export const getVolumeByISBNS = async (isbns: string[]) => {
   }
 };
 
-export const search = async (q: string) => {
-  const url = `https://www.googleapis.com/books/v1/volumes?q=${q}`;
+export interface SearchOptions {
+  maxResults?: number;
+  startIndex?: number;
+}
 
-  const fromCache = await cache.get<VolumeSearch>(url);
+const defaultOptions: SearchOptions = {
+  maxResults: 40,
+  startIndex: 0
+};
+
+export const search = async (q: string, options: SearchOptions = {}) => {
+  const mergedOptions = {
+    ...defaultOptions,
+    ...options
+  };
+
+  const searchURL = new URL("https://www.googleapis.com/books/v1/volumes");
+  searchURL.searchParams.append("q", q);
+  searchURL.searchParams.append("maxResults", `${mergedOptions.maxResults}`);
+  searchURL.searchParams.append("startIndex", `${mergedOptions.startIndex}`);
+
+  const fromCache = await cache.get<VolumeSearch>(searchURL.href);
 
   if (fromCache) {
     return fromCache;
   }
 
-  const res = await axios.get<VolumeSearch>(url);
+  const res = await axios.get<VolumeSearch>(searchURL.href);
 
-  cache.set(url, res.data);
+  cache.set(searchURL.href, res.data);
 
   return res.data;
 };

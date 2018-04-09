@@ -17,7 +17,13 @@ type CoverLinks {
   extraLarge: String
 }
 
+input BookSearchOptions {
+  maxResults: Int
+  startIndex: Int
+}
+
 extend type Query {
-  getBookByID(id: String): Book
   bestSellers: [Book]
+  getBookByID(id: String): Book
+  search(query: String, options: BookSearchOptions): [Book]
 }
