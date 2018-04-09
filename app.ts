@@ -4,6 +4,8 @@ import * as morgan from "morgan";
 import * as bodyParser from "body-parser";
 import * as passport from "passport";
 import * as Keygrip from "keygrip";
+import * as cookieParser from "cookie-parser";
+import * as jwt from "jsonwebtoken";
 import { networkInterfaces } from "os";
 // @ts-ignore
 import * as session from "cookie-session";
@@ -14,7 +16,7 @@ import * as cache from "./lib/cache";
 import { initPassport } from "./authentication";
 import authRoutes from "./routes/auth";
 import schema from "./schema";
-const cookieKeygrip = new Keygrip(["cookie-secret"]);
+import { cookieKeygrip } from "./utils/cookies";
 
 const getLocalExternalIP = () =>
   []
@@ -32,48 +34,31 @@ const app = express();
 app.use(bodyParser.json());
 app.use(morgan("tiny"));
 
-const whitelist =
-  process.env.NODE_ENV === "production"
-    ? ["https://finnreading.com", /finn-client-(\w|-)+\.now\.sh/g]
-    : [/localhost/, `http://${getLocalExternalIP()}:3000`];
+app.use((req, res, next) => {
+  if (req.headers && !req.headers.cookie && req.headers.authorization) {
+    const token = (req.headers.authorization as string).replace(
+      /^\s*Bearer\s*/,
+      ""
+    );
+    try {
+      const decoded = jwt.verify(token, process.env.SECRET);
+      // @ts-ignore
+      if (decoded.cookie) req.headers.cookie = decoded.cookie;
+    } catch (err) {}
+  }
+  next();
+});
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // origin.match()
-      // console.log(origin);
-      const good = whitelist.find(item => {
-        if (typeof item === "string") {
-          return item === origin;
-        }
-
-        if (typeof item === "object") {
-          return origin.match(item).length > 0;
-        }
-
-        return false;
-      });
-
-      if (good) {
-        callback(null, true);
-      }
+      callback(null, true);
     },
     credentials: true
   })
 );
 
-// (finn-client-(\w|-)+\.now\.sh)|(api.finnreading.com)
-
-// app.options(
-//   "*",
-//   cors({
-//     origin:
-//       process.env.NODE_ENV === "production"
-//         ? ["https://finnreading.com", /finn-client-(\w|-)+\.now\.sh/g]
-//         : [/localhost/, `http://${getLocalExternalIP()}:3000`],
-//     credentials: true
-//   })
-// );
+app.use(cookieParser());
 
 app.use(
   // @ts-ignore

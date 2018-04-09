@@ -6,7 +6,6 @@
   "author": "Jacob Wisniewski <wisniewskij26@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
     "migrate": "joon",
     "start": "nodemon",
     "now-start": "NODE_ENV=production ts-node ./bin/server.js",
@@ -21,17 +20,8 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "setupFiles": [
-      "./testSetup.js"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "setupFiles": ["./testSetup.js"]
   },
   "dependencies": {
     "@types/bcrypt": "^1.0.0",

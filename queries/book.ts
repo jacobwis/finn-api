@@ -1,4 +1,5 @@
 import Book from "../models/book";
+import User from "../models/user";
 import * as nyt from "../lib/nyt";
 import * as gb from "../utils/googleBooks";
 import { SearchOptions } from "../utils/googleBooks";
@@ -33,10 +34,23 @@ const search = async (obj: any, args: SearchArgs) => {
   return books;
 };
 
+const isOnList = async (
+  obj: Book,
+  args: any,
+  context: { currentUser: User }
+) => {
+  if (context.currentUser) {
+    return await context.currentUser.hasBookOnList(obj.id);
+  }
+};
+
 export default {
   Query: {
     bestSellers,
     getBookByID,
     search
+  },
+  Book: {
+    isOnList
   }
 };

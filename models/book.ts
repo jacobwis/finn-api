@@ -22,6 +22,7 @@ class Book {
       title: volume.volumeInfo.title || "",
       subtitle: volume.volumeInfo.subtitle,
       authors: volume.volumeInfo.authors,
+      description: volume.volumeInfo.description,
       publisher: volume.volumeInfo.publisher,
       categories: volume.volumeInfo.categories,
       covers: {
@@ -57,6 +58,7 @@ class Book {
   public title: string;
   public subtitle: string;
   public authors: string[];
+  public description: string;
   public publisher: string;
   public categories: string[];
   public covers: {

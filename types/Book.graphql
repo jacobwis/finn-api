@@ -4,8 +4,10 @@ type Book {
   subtitle: String
   authors: [String]
   publisher: String
+  description: String
   categories: [String]
   covers: CoverLinks
+  isOnList: Boolean
 }
 
 type CoverLinks {
@@ -26,4 +28,9 @@ extend type Query {
   bestSellers: [Book]
   getBookByID(id: String): Book
   search(query: String, options: BookSearchOptions): [Book]
+}
+
+extend type Mutation {
+  addBookToReadingList(bookID: String): Boolean
+  removeBookFromReadingList(bookID: String): Boolean
 }
