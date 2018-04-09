@@ -25,14 +25,24 @@ class Book {
       publisher: volume.volumeInfo.publisher,
       categories: volume.volumeInfo.categories,
       covers: {
-        thumbnail: formatCoverURL(volume.volumeInfo.imageLinks.thumbnail),
-        small: formatCoverURL(volume.volumeInfo.imageLinks.small),
-        medium: formatCoverURL(volume.volumeInfo.imageLinks.medium),
-        large: formatCoverURL(volume.volumeInfo.imageLinks.large),
-        smallThumbnail: formatCoverURL(
-          volume.volumeInfo.imageLinks.smallThumbnail
-        ),
-        extraLarge: formatCoverURL(volume.volumeInfo.imageLinks.extraLarge)
+        thumbnail: volume.volumeInfo.imageLinks
+          ? formatCoverURL(volume.volumeInfo.imageLinks.thumbnail)
+          : null,
+        small: volume.volumeInfo.imageLinks
+          ? formatCoverURL(volume.volumeInfo.imageLinks.small)
+          : null,
+        medium: volume.volumeInfo.imageLinks
+          ? formatCoverURL(volume.volumeInfo.imageLinks.medium)
+          : null,
+        large: volume.volumeInfo.imageLinks
+          ? formatCoverURL(volume.volumeInfo.imageLinks.large)
+          : null,
+        smallThumbnail: volume.volumeInfo.imageLinks
+          ? formatCoverURL(volume.volumeInfo.imageLinks.smallThumbnail)
+          : null,
+        extraLarge: volume.volumeInfo.imageLinks
+          ? formatCoverURL(volume.volumeInfo.imageLinks.extraLarge)
+          : null
       }
     };
   }

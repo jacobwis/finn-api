@@ -31,15 +31,50 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(morgan("tiny"));
+
+const whitelist =
+  process.env.NODE_ENV === "production"
+    ? ["https://finnreading.com", /finn-client-(\w|-)+\.now\.sh/g]
+    : [/localhost/, `http://${getLocalExternalIP()}:3000`];
+
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "production"
-        ? ["https://finnreading.com", /finn-client-(\w|-)+\.now\.sh/g]
-        : [/localhost/, `http://${getLocalExternalIP()}:3000`],
+    origin: (origin, callback) => {
+      // origin.match()
+      // console.log(origin);
+      const good = whitelist.find(item => {
+        if (typeof item === "string") {
+          return item === origin;
+        }
+
+        if (typeof item === "object") {
+          return origin.match(item).length > 0;
+        }
+
+        return false;
+      });
+
+      if (good) {
+        callback(null, true);
+      }
+    },
     credentials: true
   })
 );
+
+// (finn-client-(\w|-)+\.now\.sh)|(api.finnreading.com)
+
+// app.options(
+//   "*",
+//   cors({
+//     origin:
+//       process.env.NODE_ENV === "production"
+//         ? ["https://finnreading.com", /finn-client-(\w|-)+\.now\.sh/g]
+//         : [/localhost/, `http://${getLocalExternalIP()}:3000`],
+//     credentials: true
+//   })
+// );
+
 app.use(
   // @ts-ignore
   session({
