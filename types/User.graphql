@@ -7,4 +7,5 @@ type User {
 
 extend type Query {
   currentUser: User
+  readingList: [Book]
 }

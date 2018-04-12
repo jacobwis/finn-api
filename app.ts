@@ -31,6 +31,8 @@ initPassport();
 
 const app = express();
 
+app.set("trust proxy", true);
+
 app.use(bodyParser.json());
 app.use(morgan("tiny"));
 
@@ -60,16 +62,34 @@ app.use(
 
 app.use(cookieParser());
 
+// app.use(
+//   // @ts-ignore
+//   session({
+//     name: "session",
+//     keys: cookieKeygrip,
+//     maxAge: 31556952000,
+//     secure:,
+//     signed: true
+//   })
+// );
+
+import * as expressSession from "express-session";
+import * as RedisConnect from "connect-redis";
+
+const RedisStore = RedisConnect(expressSession);
+
 app.use(
-  // @ts-ignore
-  session({
-    name: "session",
-    keys: cookieKeygrip,
-    maxAge: 31556952000,
-    secure: false,
-    signed: true,
-    domain:
-      process.env.NODE_ENV === "production" ? undefined : getLocalExternalIP()
+  expressSession({
+    secret: "cookie-secret",
+    resave: false,
+    saveUninitialized: false,
+    store: new RedisStore({ client: cache.client }),
+    cookie: {
+      domain:
+        process.env.NODE_ENV === "production" ? ".finnreading.com" : undefined,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 31556952000
+    }
   })
 );
 
@@ -94,8 +114,18 @@ app.get("/signout", (req: express.Request, res: express.Response) => {
   res.redirect(REDIRECT_TO);
 });
 
+const tempMiddleware = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  // console.log(req.headers);
+  next();
+};
+
 app.use(
   "/graphql",
+  tempMiddleware,
   graphqlExpress(req => ({
     schema,
     context: {

@@ -1,7 +1,12 @@
 import * as passport from "passport";
 import { Strategy as TwitterStrategy } from "passport-twitter";
-// import { createOrFindUser, getUserByID } from "./models/user";
 import User from "./models/user";
+
+const IS_PROD = process.env.NODE_ENV === "production" ? true : false;
+
+const CALLBACK_URL = IS_PROD
+  ? "https://finnreading.com/auth/twitter/callback"
+  : "http://localhost:3000/auth/twitter/callback";
 
 export const initPassport = () => {
   passport.serializeUser<any, any>((user, done) => {
@@ -10,29 +15,33 @@ export const initPassport = () => {
 
   passport.deserializeUser<User, any>(async (id, done) => {
     const user = await User.findByID(id);
-    done(null, user);
+    if (user) {
+      done(null, user);
+    } else {
+      // @ts-ignore
+      done(null, false);
+    }
   });
 
-  passport.use(
-    new TwitterStrategy(
-      {
-        consumerKey: process.env.TWITTER_CONSUMER_KEY,
-        consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-        callbackURL: "/auth/twitter/callback"
-      },
-      async (token, tokenSecret, profile, done) => {
-        const user = await User.findOrCreate(
-          {
-            name: profile.displayName,
-            username: profile.username,
-            photoURL: profile.photos[0].value,
-            twitterID: profile.id
-          },
-          "twitter"
-        );
+  const options = {
+    consumerKey: process.env.TWITTER_CONSUMER_KEY,
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+    callbackURL: CALLBACK_URL
+  };
 
-        done(null, user);
-      }
-    )
+  passport.use(
+    new TwitterStrategy(options, async (token, tokenSecret, profile, done) => {
+      const user = await User.findOrCreate(
+        {
+          name: profile.displayName,
+          username: profile.username,
+          photoURL: profile.photos[0].value,
+          twitterID: profile.id
+        },
+        "twitter"
+      );
+
+      done(null, user);
+    })
   );
 };

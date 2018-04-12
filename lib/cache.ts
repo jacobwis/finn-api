@@ -2,7 +2,7 @@ import * as redis from "redis";
 
 const ENV = process.env.NODE_ENV;
 
-let client: redis.RedisClient;
+export let client: redis.RedisClient;
 
 export const init = () => {
   client = redis.createClient({

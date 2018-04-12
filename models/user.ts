@@ -1,4 +1,5 @@
 import * as db from "./db";
+import Book from "./book";
 
 class User {
   public static async create(user: Partial<User>) {
@@ -89,6 +90,17 @@ class User {
     }
 
     return false;
+  }
+
+  public async readingList() {
+    const readingListRows = await db.query(
+      'SELECT * FROM "reading_list_items" WHERE "userID" = $1',
+      [this.id]
+    );
+    const books = await Promise.all(
+      readingListRows.rows.map(row => Book.findByID(row.bookID))
+    );
+    return books;
   }
 }
 

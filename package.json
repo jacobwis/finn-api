@@ -20,8 +20,17 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-    "setupFiles": ["./testSetup.js"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "setupFiles": [
+      "./testSetup.js"
+    ]
   },
   "dependencies": {
     "@types/bcrypt": "^1.0.0",
@@ -46,12 +55,14 @@
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "concurrently": "^3.5.1",
+    "connect-redis": "^3.3.3",
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-beta.3",
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
+    "express-session": "^1.15.6",
     "fs-extra": "^5.0.0",
     "graphql": "^0.13.2",
     "graphql-playground-middleware-express": "^1.6.0",
@@ -71,5 +82,10 @@
     "ts-jest": "^22.4.2",
     "ts-node": "^5.0.1",
     "typescript": "^2.7.2"
+  },
+  "devDependencies": {
+    "@playlyfe/gql": "^2.6.0",
+    "@types/connect-redis": "^0.0.7",
+    "@types/express-session": "^1.15.8"
   }
 }
