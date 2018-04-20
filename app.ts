@@ -115,18 +115,8 @@ app.get("/signout", (req: express.Request, res: express.Response) => {
   res.redirect(REDIRECT_TO);
 });
 
-const tempMiddleware = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
-  // console.log(req.headers);
-  next();
-};
-
 app.use(
   "/graphql",
-  tempMiddleware,
   graphqlExpress(req => ({
     schema,
     context: {

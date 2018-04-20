@@ -6,8 +6,9 @@ const HOME = IS_PROD ? "https://finnreading.com" : "http://localhost:3000";
 const router = Router();
 
 router.get("/", (req, res) => {
-  req.session = null;
-  res.redirect(HOME);
+  req.session.destroy(() => {
+    res.redirect(HOME);
+  });
 });
 
 export default router;
