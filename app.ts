@@ -17,6 +17,7 @@ import { initPassport } from "./authentication";
 import authRoutes from "./routes/auth";
 import schema from "./schema";
 import { cookieKeygrip } from "./utils/cookies";
+import * as im from "imagemagick";
 
 const getLocalExternalIP = () =>
   []

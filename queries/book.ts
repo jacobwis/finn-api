@@ -1,3 +1,4 @@
+import axios from "axios";
 import Book from "../models/book";
 import User from "../models/user";
 import * as nyt from "../lib/nyt";
@@ -21,7 +22,8 @@ interface BookByIDArgs {
 }
 
 const getBookByID = async (obj: any, args: BookByIDArgs) => {
-  return await Book.findByID(args.id);
+  const b = await Book.findByID(args.id);
+  return b;
 };
 
 interface SearchArgs {
@@ -44,6 +46,37 @@ const isOnList = async (
   }
 };
 
+// const covers = async (obj: Book) => {
+//   const cp = Object.keys(obj._covers).map((key: string) => {
+//     // @ts-ignore
+//     const coverURL = obj._covers[key];
+//     return getCoverDetails(key, coverURL);
+//   });
+
+//   const details = await Promise.all(cp);
+//   return details.reduce((o, val) => {
+//     return {
+//       ...o,
+//       [val.name]: val.details
+//     };
+//   }, {});
+// };
+
+const getCoverDetails = async (name: string, coverURL: string) => {
+  const res = await axios.get("http://localhost:3002/info", {
+    params: {
+      q: coverURL
+    }
+  });
+  return {
+    name,
+    details: {
+      ...res.data,
+      url: coverURL
+    }
+  };
+};
+
 export default {
   Query: {
     bestSellers,
@@ -51,6 +84,7 @@ export default {
     search
   },
   Book: {
-    isOnList
+    isOnList,
+    covers: (obj: any) => obj
   }
 };

@@ -7,6 +7,7 @@
     "REDIS_URL": "@finn-redis-url",
     "TWITTER_CONSUMER_KEY": "@finn-twitter-key",
     "TWITTER_CONSUMER_SECRET": "@finn-twitter-secret",
-    "NYT_KEY": "@finn-nyt-key"
+    "NYT_KEY": "@finn-nyt-key",
+    "IMG_URL": "@finn-image-url"
   }
 }

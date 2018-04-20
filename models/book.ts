@@ -1,5 +1,9 @@
 import { URL } from "url";
+import * as path from "path";
+import * as http from "http";
+import axios from "axios";
 import * as gb from "../utils/googleBooks";
+import * as fs from "fs";
 import { Volume, SearchOptions } from "../utils/googleBooks";
 
 function formatCoverURL(original: string) {
@@ -25,7 +29,7 @@ class Book {
       description: volume.volumeInfo.description,
       publisher: volume.volumeInfo.publisher,
       categories: volume.volumeInfo.categories,
-      covers: {
+      _covers: {
         thumbnail: volume.volumeInfo.imageLinks
           ? formatCoverURL(volume.volumeInfo.imageLinks.thumbnail)
           : null,
@@ -61,7 +65,7 @@ class Book {
   public description: string;
   public publisher: string;
   public categories: string[];
-  public covers: {
+  public _covers: {
     thumbnail: string;
     small: string;
     medium: string;
