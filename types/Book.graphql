@@ -8,6 +8,7 @@ type Book {
   categories: [String]
   covers: CoverLinks
   isOnList: Boolean
+  hasRead: Boolean
 }
 
 type CoverLinks {
@@ -31,6 +32,6 @@ extend type Query {
 }
 
 extend type Mutation {
-  addBookToReadingList(bookID: String): Boolean
+  addBookToReadingList(bookID: String, hasRead: Boolean): Boolean
   removeBookFromReadingList(bookID: String): Boolean
 }

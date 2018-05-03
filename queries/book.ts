@@ -46,6 +46,16 @@ const isOnList = async (
   }
 };
 
+const hasRead = async (
+  obj: Book,
+  args: any,
+  context: { currentUser: User }
+) => {
+  if (context.currentUser) {
+    return await context.currentUser.hasReadBook(obj.id);
+  }
+};
+
 export default {
   Query: {
     bestSellers,
@@ -53,6 +63,7 @@ export default {
     search
   },
   Book: {
-    isOnList
+    isOnList,
+    hasRead
   }
 };

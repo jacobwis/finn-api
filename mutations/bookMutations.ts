@@ -2,6 +2,7 @@ import User from "../models/user";
 
 interface AddBookToReadingListArgs {
   bookID: string;
+  hasRead: boolean;
 }
 
 const addBookToReadingList = async (
@@ -9,7 +10,7 @@ const addBookToReadingList = async (
   args: AddBookToReadingListArgs,
   context: any
 ) => {
-  return await context.currentUser.addBookToList(args.bookID);
+  return await context.currentUser.addBookToList(args.bookID, args.hasRead);
 };
 
 const removeBookFromReadingList = async (

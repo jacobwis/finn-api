@@ -64,16 +64,23 @@ class User {
     this.twitterID = params.twitterID;
   }
 
-  public async addBookToList(bookID: string) {
+  public async addBookToList(bookID: string, hasRead: boolean = false) {
     const existing = await db.oneOrNone(
       `SELECT * FROM "reading_list_items" WHERE "userID" = $1 AND "bookID" = $2 LIMIT 1`,
       [this.id, bookID]
     );
 
+    if (existing && hasRead !== existing.hasRead) {
+      await db.oneOrNone(
+        `UPDATE "reading_list_items" SET "hasRead" = $1 WHERE "id" = $2`,
+        [hasRead, existing.id]
+      );
+    }
+
     if (!existing) {
       await db.one(
-        `INSERT INTO "reading_list_items"("userID", "bookID") VALUES($1, $2)`,
-        [this.id, bookID]
+        `INSERT INTO "reading_list_items"("userID", "bookID", "hasRead") VALUES($1, $2, $3)`,
+        [this.id, bookID, hasRead]
       );
     }
     return true;
@@ -91,6 +98,18 @@ class User {
     const res = await db.oneOrNone(
       `SELECT FROM "reading_list_items" WHERE "userID" = $1 AND "bookID" = $2`,
       [this.id, bookID]
+    );
+    if (res) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public async hasReadBook(bookID: string) {
+    const res = await db.oneOrNone(
+      `SELECT FROM "reading_list_items" WHERE "userID" = $1 AND "bookID" = $2 AND "hasRead" = $3`,
+      [this.id, bookID, true]
     );
     if (res) {
       return true;
