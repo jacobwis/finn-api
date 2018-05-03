@@ -29,7 +29,7 @@ class Book {
       description: volume.volumeInfo.description,
       publisher: volume.volumeInfo.publisher,
       categories: volume.volumeInfo.categories,
-      _covers: {
+      covers: {
         thumbnail: volume.volumeInfo.imageLinks
           ? formatCoverURL(volume.volumeInfo.imageLinks.thumbnail)
           : null,
@@ -65,7 +65,7 @@ class Book {
   public description: string;
   public publisher: string;
   public categories: string[];
-  public _covers: {
+  public covers: {
     thumbnail: string;
     small: string;
     medium: string;

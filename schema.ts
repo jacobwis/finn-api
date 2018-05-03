@@ -16,13 +16,7 @@ for (const file of files) {
   schema += data;
 }
 
-const resolvers = merge(
-  {},
-  coverQueries,
-  userQueries,
-  bookQueries,
-  bookMutations
-);
+const resolvers = merge({}, userQueries, bookQueries, bookMutations);
 
 export default makeExecutableSchema({
   typeDefs: schema,

@@ -46,37 +46,6 @@ const isOnList = async (
   }
 };
 
-// const covers = async (obj: Book) => {
-//   const cp = Object.keys(obj._covers).map((key: string) => {
-//     // @ts-ignore
-//     const coverURL = obj._covers[key];
-//     return getCoverDetails(key, coverURL);
-//   });
-
-//   const details = await Promise.all(cp);
-//   return details.reduce((o, val) => {
-//     return {
-//       ...o,
-//       [val.name]: val.details
-//     };
-//   }, {});
-// };
-
-const getCoverDetails = async (name: string, coverURL: string) => {
-  const res = await axios.get("http://localhost:3002/info", {
-    params: {
-      q: coverURL
-    }
-  });
-  return {
-    name,
-    details: {
-      ...res.data,
-      url: coverURL
-    }
-  };
-};
-
 export default {
   Query: {
     bestSellers,
@@ -84,7 +53,6 @@ export default {
     search
   },
   Book: {
-    isOnList,
-    covers: (obj: any) => obj
+    isOnList
   }
 };

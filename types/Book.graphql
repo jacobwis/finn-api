@@ -11,19 +11,12 @@ type Book {
 }
 
 type CoverLinks {
-  smallThumbnail: CoverDetails
-  thumbnail: CoverDetails
-  small: CoverDetails
-  medium: CoverDetails
-  large: CoverDetails
-  extraLarge: CoverDetails
-}
-
-type CoverDetails {
-  dominantColor: String
-  height: Int
-  url: String
-  width: Int
+  smallThumbnail: String
+  thumbnail: String
+  small: String
+  medium: String
+  large: String
+  extraLarge: String
 }
 
 input BookSearchOptions {

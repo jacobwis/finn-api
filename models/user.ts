@@ -65,10 +65,17 @@ class User {
   }
 
   public async addBookToList(bookID: string) {
-    await db.one(
-      `INSERT INTO "reading_list_items"("userID", "bookID") VALUES($1, $2)`,
+    const existing = await db.oneOrNone(
+      `SELECT * FROM "reading_list_items" WHERE "userID" = $1 AND "bookID" = $2 LIMIT 1`,
       [this.id, bookID]
     );
+
+    if (!existing) {
+      await db.one(
+        `INSERT INTO "reading_list_items"("userID", "bookID") VALUES($1, $2)`,
+        [this.id, bookID]
+      );
+    }
     return true;
   }
 
