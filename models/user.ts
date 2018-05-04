@@ -1,5 +1,5 @@
-import * as db from "./db";
 import Book from "./book";
+import * as db from "./db";
 
 class User {
   public static async create(user: Partial<User>) {
@@ -120,7 +120,7 @@ class User {
 
   public async readingList() {
     const readingListRows = await db.query(
-      'SELECT * FROM "reading_list_items" WHERE "userID" = $1',
+      'SELECT * FROM "reading_list_items" WHERE "userID" = $1 ORDER BY "id" DESC',
       [this.id]
     );
     const books = await Promise.all(
