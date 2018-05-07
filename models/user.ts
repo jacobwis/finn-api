@@ -4,8 +4,15 @@ import * as db from "./db";
 class User {
   public static async create(user: Partial<User>) {
     const res = await db.one(
-      `INSERT INTO users("name", "username", "photoURL", "twitterID", "googleID") VALUES($1, $2, $3, $4, $5) RETURNING *`,
-      [user.name, user.username, user.photoURL, user.twitterID, user.googleID]
+      `INSERT INTO users("name", "username", "photoURL", "twitterID", "googleID", "facebookID") VALUES($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [
+        user.name,
+        user.username,
+        user.photoURL,
+        user.twitterID,
+        user.googleID,
+        user.facebookID
+      ]
     );
     if (res) {
       return new User(res);
@@ -32,6 +39,13 @@ class User {
 
     if (providerMethod === "google" && user.googleID) {
       let storedUser = await User.findByGoogleID(user.googleID);
+      if (storedUser) {
+        return storedUser;
+      }
+    }
+
+    if (providerMethod === "facebook" && user.facebookID) {
+      let storedUser = await User.findByFacebookID(user.facebookID);
       if (storedUser) {
         return storedUser;
       }
@@ -67,12 +81,23 @@ class User {
     }
   }
 
+  public static async findByFacebookID(facebookID: string) {
+    const res = await db.oneOrNone(
+      `SELECT * FROM users WHERE "facebookID" = $1`,
+      [facebookID]
+    );
+    if (res) {
+      return new User(res);
+    }
+  }
+
   public id: number;
   public name: string;
   public username: string;
   public photoURL: string;
   public twitterID: string;
   public googleID: string;
+  public facebookID: string;
 
   public constructor(params: Partial<User>) {
     this.id = params.id;
@@ -81,6 +106,7 @@ class User {
     this.photoURL = params.photoURL;
     this.twitterID = params.twitterID;
     this.googleID = params.googleID;
+    this.facebookID = params.facebookID;
   }
 
   public async addBookToList(bookID: string, hasRead: boolean = false) {

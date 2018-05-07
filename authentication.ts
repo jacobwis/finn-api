@@ -1,4 +1,5 @@
 import * as passport from "passport";
+import { Strategy as FacebookStrategy } from "passport-facebook";
 import { OAuth2Strategy as GoogleStrategy } from "passport-google-oauth";
 import { Strategy as TwitterStrategy } from "passport-twitter";
 import User from "./models/user";
@@ -62,6 +63,38 @@ export const initPassport = () => {
             googleID: profile.id
           },
           "google"
+        );
+        done(null, user);
+      }
+    )
+  );
+
+  passport.use(
+    new FacebookStrategy(
+      {
+        clientID: process.env.FACEBOOK_APP_ID,
+        clientSecret: process.env.FACEBOOK_APP_SECRET,
+        callbackURL: "/auth/facebook/callback",
+        profileFields: [
+          "id",
+          "displayName",
+          "first_name",
+          "middle_name",
+          "last_name",
+          "email",
+          "photos",
+          "hometown"
+        ]
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        const user = await User.findOrCreate(
+          {
+            name: profile.displayName,
+            username: null,
+            photoURL: profile.photos[0].value,
+            facebookID: profile.id
+          },
+          "facebook"
         );
         done(null, user);
       }

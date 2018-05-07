@@ -10,7 +10,7 @@ const createSigninRoutes = (strategy: string, options?: any) => ({
   main: passport.authenticate(strategy, options),
   callbacks: [
     passport.authenticate(strategy, {
-      failureRedirect: IS_PROD ? "/" : "http://localhost:3000/"
+      failureRedirect: FALLBACK_URL
     }),
     (req: Request, res: Response) => {
       res.redirect(FALLBACK_URL);
