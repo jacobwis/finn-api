@@ -1,4 +1,5 @@
 import * as passport from "passport";
+import { OAuth2Strategy as GoogleStrategy } from "passport-google-oauth";
 import { Strategy as TwitterStrategy } from "passport-twitter";
 import User from "./models/user";
 
@@ -43,5 +44,27 @@ export const initPassport = () => {
 
       done(null, user);
     })
+  );
+
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "/auth/google/callback"
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        const user = await User.findOrCreate(
+          {
+            name: profile.displayName,
+            username: null,
+            photoURL: profile.photos[0].value,
+            googleID: profile.id
+          },
+          "google"
+        );
+        done(null, user);
+      }
+    )
   );
 };

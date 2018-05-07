@@ -8,6 +8,8 @@
     "TWITTER_CONSUMER_KEY": "@finn-twitter-key",
     "TWITTER_CONSUMER_SECRET": "@finn-twitter-secret",
     "NYT_KEY": "@finn-nyt-key",
-    "IMG_URL": "@finn-image-url"
+    "IMG_URL": "@finn-image-url",
+    "GOOGLE_CLIENT_ID": "@finn-google-key",
+    "GOOGLE_CLIENT_SECRET": "@finn-google-secret"
   }
 }

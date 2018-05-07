@@ -80,6 +80,7 @@
     "nodemon": "^1.17.2",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
+    "passport-google-oauth": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "pg": "^7.4.1",
     "redis": "^2.8.0",
@@ -93,6 +94,7 @@
     "@types/connect-redis": "^0.0.7",
     "@types/express-session": "^1.15.8",
     "@types/gm": "^1.17.33",
-    "@types/imagemagick": "^0.0.30"
+    "@types/imagemagick": "^0.0.30",
+    "@types/passport-google-oauth": "^1.0.38"
   }
 }

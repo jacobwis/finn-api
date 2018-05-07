@@ -1,7 +1,5 @@
-import { URL } from "url";
 import { Request, Response } from "express";
 import * as passport from "passport";
-import { getCookies, signCookie } from "../../utils/cookies";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const FALLBACK_URL = IS_PROD
@@ -15,7 +13,7 @@ const createSigninRoutes = (strategy: string, options?: any) => ({
       failureRedirect: IS_PROD ? "/" : "http://localhost:3000/"
     }),
     (req: Request, res: Response) => {
-      res.redirect("/");
+      res.redirect(FALLBACK_URL);
     }
   ]
 });
