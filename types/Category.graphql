@@ -1,0 +1,9 @@
+type Category {
+  id: String
+  name: String
+}
+
+extend type Query {
+  categories: [Category]
+  category(id: String): Category
+}

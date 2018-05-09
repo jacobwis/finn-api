@@ -1,10 +1,6 @@
 import { URL } from "url";
-import * as path from "path";
-import * as http from "http";
-import axios from "axios";
 import * as gb from "../utils/googleBooks";
-import * as fs from "fs";
-import { Volume, SearchOptions } from "../utils/googleBooks";
+import { SearchOptions, Volume } from "../utils/googleBooks";
 
 function formatCoverURL(original: string) {
   if (original) {
@@ -15,6 +11,16 @@ function formatCoverURL(original: string) {
 }
 
 class Book {
+  public static async findByCategory(
+    category: string,
+    options?: SearchOptions
+  ) {
+    const results = await gb.getVolumesByCategory(category, options);
+    if (results.items) {
+      return results.items.map(volume => Book.fromVolume(volume));
+    }
+  }
+
   public static async findByID(id: string) {
     const volume = await gb.getVolumeByID(id);
     return Book.fromVolume(volume);

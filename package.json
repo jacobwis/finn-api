@@ -55,6 +55,7 @@
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "canvas": "^1.6.10",
+    "cheerio": "^1.0.0-rc.2",
     "concurrently": "^3.5.1",
     "connect-redis": "^3.3.3",
     "cookie-parser": "^1.4.3",
@@ -91,6 +92,7 @@
   },
   "devDependencies": {
     "@playlyfe/gql": "^2.6.0",
+    "@types/cheerio": "^0.22.7",
     "@types/connect-redis": "^0.0.7",
     "@types/express-session": "^1.15.8",
     "@types/gm": "^1.17.33",

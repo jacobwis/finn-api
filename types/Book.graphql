@@ -29,6 +29,7 @@ extend type Query {
   bestSellers: [Book]
   getBookByID(id: String): Book
   search(query: String, options: BookSearchOptions): [Book]
+  booksByCategory(category: String, options: BookSearchOptions): [Book]
 }
 
 extend type Mutation {

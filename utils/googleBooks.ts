@@ -1,5 +1,5 @@
-import { URL } from "url";
 import axios from "axios";
+import { URL } from "url";
 import * as cache from "../lib/cache";
 
 export interface Volume {
@@ -76,6 +76,31 @@ export const getVolumeByISBNS = async (isbns: string[]) => {
   if (volume) {
     return await getVolumeByID(volume.id);
   }
+};
+
+export const getVolumesByCategory = async (
+  category: string,
+  options: SearchOptions = {}
+) => {
+  const mergedOptions = {
+    ...defaultOptions,
+    ...options
+  };
+  const searchURL = `https://www.googleapis.com/books/v1/volumes?q=subject:${category}&maxResults=${
+    mergedOptions.maxResults
+  }&startIndex=${mergedOptions.startIndex}&langRestrict=en`;
+
+  const fromCache = await cache.get<VolumeSearch>(searchURL);
+
+  if (fromCache) {
+    return fromCache;
+  }
+
+  const res = await axios.get<VolumeSearch>(searchURL);
+
+  cache.set(searchURL, res.data);
+
+  return res.data;
 };
 
 export interface SearchOptions {

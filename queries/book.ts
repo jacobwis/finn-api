@@ -1,9 +1,17 @@
-import axios from "axios";
+import * as nyt from "../lib/nyt";
 import Book from "../models/book";
 import User from "../models/user";
-import * as nyt from "../lib/nyt";
 import * as gb from "../utils/googleBooks";
 import { SearchOptions } from "../utils/googleBooks";
+
+interface BooksByCategoryArgs {
+  category: string;
+  options: SearchArgs;
+}
+
+const booksByCategory = async (obj: any, args: BooksByCategoryArgs) => {
+  return await Book.findByCategory(args.category, args.options);
+};
 
 const bestSellers = async () => {
   const nytResults = await nyt.getBestSellerList();
@@ -58,6 +66,7 @@ const hasRead = async (
 
 export default {
   Query: {
+    booksByCategory,
     bestSellers,
     getBookByID,
     search

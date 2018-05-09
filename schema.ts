@@ -1,11 +1,11 @@
-import { makeExecutableSchema } from "graphql-tools";
-import * as path from "path";
 import * as fs from "fs-extra";
+import { makeExecutableSchema } from "graphql-tools";
 import { merge } from "lodash";
-import userQueries from "./queries/user";
-import bookQueries from "./queries/book";
-import coverQueries from "./queries/coverLinks";
+import * as path from "path";
 import bookMutations from "./mutations/bookMutations";
+import bookQueries from "./queries/book";
+import categoryQuerys from "./queries/category";
+import userQueries from "./queries/user";
 
 let schema = "";
 const schemaDir = path.resolve(__dirname, "types");
@@ -16,7 +16,13 @@ for (const file of files) {
   schema += data;
 }
 
-const resolvers = merge({}, userQueries, bookQueries, bookMutations);
+const resolvers = merge(
+  {},
+  userQueries,
+  bookQueries,
+  bookMutations,
+  categoryQuerys
+);
 
 export default makeExecutableSchema({
   typeDefs: schema,
