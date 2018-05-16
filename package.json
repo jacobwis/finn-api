@@ -20,17 +20,8 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "setupFiles": [
-      "./testSetup.js"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "setupFiles": ["./testSetup.js"]
   },
   "dependencies": {
     "@types/bcrypt": "^1.0.0",
